@@ -1,46 +1,9 @@
-// task1(example1)
-// let x1 =2;
-// let y1 =3;
-// let x2 =10;
-// let y2 =5;
-
-// let product = (x2 - x1) * (y2 - y1);
-// console.log(product)
-
-// // example2
-// let a1 =2;
-// let b1 =3;
-// let a2 =10;
-// let b2 =5;
-
-// let product2 = (x2 - x1) * (y2 - y1);
-// console.log(product2)
 
 
 
 
-// task2
 
-// function franctional(a, b, n){
-//     const franctionalA = Math.floor((a % 1) * Math.pow(10, n));
-//     const franctionalB = Math.floor((b % 1) * Math.pow(10, n));
 
-//     console.log(`Дробные части a:`, franctionalA);
-//     console.log(`дробные части b:`, franctionalB);
-
-//     console.log(`Проверка:`);
-
-//     console.log(`${franctionalA} < ${franctionalB}: ${franctionalA < franctionalB}`)
-//     console.log(`${franctionalA} > ${franctionalB}: ${franctionalA > franctionalB}`);
-//     console.log(`${franctionalA} <= ${franctionalB}: ${franctionalA <= franctionalB}`);
-//     console.log(`${franctionalA} >= ${franctionalB}: ${franctionalA >= franctionalB}`);
-//     console.log(`${franctionalA} === ${franctionalB}: ${franctionalA === franctionalB}`);
-//     console.log(`${franctionalA} not= ${franctionalB}: ${franctionalA !== franctionalB}`);
-// }
-
-// franctional(13.123456789, 2.123, 5);
-// franctional(13.890123, 2.891564, 2);
-// franctional(13.890123, 2.891564, 3);
 
 
 
@@ -71,15 +34,7 @@
 
 // next block
 
-// task1
 
-// const password = '-_A'
-
-// if (password.length >= 4 && (password.includes("-") || password.includes("_"))) {
-//     console.log('Пароль подходит') 
-// } else {
-//     console.log("Пароль не подходит")
-// }
 
 // task2
 
