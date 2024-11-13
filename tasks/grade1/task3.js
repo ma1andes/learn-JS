@@ -1,19 +1,26 @@
-function franction(a, b, n){
-    const franctionA = Math.floor((a % 1) * Math.pow(10, n));
-    const franctionB = Math.floor((b % 1) * Math.pow(10, n));
+function randomNum(m, n) {
+    if (n > m) { 
+        [n, m] = [m, n];
+    }
+    const RandomNum1 = Math.floor(Math.random() * (n - m)) + n;
+    const RandomNum2 = Math.floor(Math.random() * (m - n)) + n;
 
-    console.log('Дробные части a:', franctionA);
-    console.log('Дробные части b:', franctionB);
-
-    console.log('Сравнение');
-    console.log(`${franctionA} > ${franctionB}: ${franctionA > franctionB}`);
-    console.log(`${franctionA} < ${franctionB}: ${franctionA < franctionB}`);
-    console.log(`${franctionA} >= ${franctionB}: ${franctionA >= franctionB}`);
-    console.log(`${franctionA} <= ${franctionB}: ${franctionA <- franctionB}`);
-    console.log(`${franctionA} === ${franctionB}: ${franctionA === franctionB}`);
-    console.log(`${franctionA} not= ${franctionB}: ${franctionA !== franctionB}`);
+    return [RandomNum1, RandomNum2]
 }
 
-franction(13.123456789, 2.123, 5);
-franction(13.890123, 2.891564, 2);
-franction(13.890123, 2.891564, 3);
+let randomNum1 = randomNum(1, 10);
+let randomNum2 = randomNum(1, 10);
+
+console.log(`${randomNum1} < ${randomNum2}: ${randomNum1 < randomNum2}`)
+console.log(`${randomNum1} > ${randomNum2}: ${randomNum1 > randomNum2}`)
+console.log(`${randomNum1} <= ${randomNum2}: ${randomNum1 <= randomNum2}`)
+console.log(`${randomNum1} >= ${randomNum2}: ${randomNum1 >= randomNum2}`)
+console.log(`${randomNum1} === ${randomNum2}: ${randomNum1 === randomNum2}`)
+console.log(`${randomNum1} not= ${randomNum2}: ${randomNum1 !== randomNum2}`)
+
+
+
+
+
+
+
