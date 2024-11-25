@@ -1,7 +1,7 @@
 function createTodoApp(container, title, listName) {
     const todoListKey = listName || 'default-todo-list';
 
-    const savedTasks = getFromLocalStorage(todoListKey) || [];
+    let savedTasks = getFromLocalStorage(todoListKey) || [];
 
     const appTitle = document.createElement('h1');
     appTitle.textContent = title;
@@ -22,11 +22,13 @@ function createTodoApp(container, title, listName) {
     const list = document.createElement('ul');
     list.classList.add('list-group');
 
+    // Отрисовка сохраненных задач
     savedTasks.forEach(task => {
         const taskElement = createTaskElement(task, savedTasks, todoListKey);
         list.append(taskElement);
     });
 
+    // Добавление новой задачи
     form.addEventListener('submit', event => {
         event.preventDefault();
         if (!input.value.trim()) return;
@@ -48,6 +50,22 @@ function createTodoApp(container, title, listName) {
 
     input.addEventListener('input', () => {
         button.disabled = !input.value.trim();
+    });
+
+    // Обработка событий storage для синхронизации между вкладками
+    window.addEventListener('storage', (event) => {
+        if (event.key === todoListKey) {
+            const updatedTasks = getFromLocalStorage(todoListKey);
+            if (updatedTasks) {
+                savedTasks = updatedTasks;
+                // Перерисовка списка задач
+                list.innerHTML = '';
+                savedTasks.forEach(task => {
+                    const taskElement = createTaskElement(task, savedTasks, todoListKey);
+                    list.append(taskElement);
+                });
+            }
+        }
     });
 
     container.append(appTitle, form, list);
@@ -82,30 +100,51 @@ function createTaskElement(task, tasks, storageKey) {
 
     deleteButton.addEventListener('click', () => {
         const taskIndex = tasks.findIndex(t => t.id === task.id);
-        if (taskIndex !== -1) tasks.splice(taskIndex, 1);
-        taskItem.remove();
-        saveToLocalStorage(storageKey, tasks);
+        if (taskIndex !== -1) {
+            tasks.splice(taskIndex, 1);
+            taskItem.remove();
+            saveToLocalStorage(storageKey, tasks);
+        } else {
+            console.warn('Task ID not found. Synchronizing LocalStorage.');
+            saveToLocalStorage(storageKey, tasks); // Обновляем localstorage
+        }
     });
 
     return taskItem;
 }
 
-
 function saveToLocalStorage(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
 }
 
-
 function getFromLocalStorage(key) {
-    const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : null;
+    try {
+        const data = localStorage.getItem(key);
+        if (data) {
+            const parsedData = JSON.parse(data);
+            if (Array.isArray(parsedData)) {
+                return parsedData.filter(task => 
+                    task.id != null && 
+                    typeof task.name === 'string' && 
+                    typeof task.done === 'boolean'
+                ); // Валидация данных
+            }
+        }
+        return [];
+    } catch (e) {
+        console.error('Не удалось проанализировать данные', e);
+        return []; // Если данные повреждены => возвращаем пустой массив
+    }
 }
-
 
 function generateId(tasks) {
-    return tasks.length ? Math.max(...tasks.map(task => task.id)) + 1 : 1;
+    const validIds = tasks
+        .map(task => task.id)
+        .filter(id => typeof id === 'number' && id > 0); // Фильтрация корректных id
+    return validIds.length ? Math.max(...validIds) + 1 : 1;
 }
 
+// Инициализация приложения
 document.addEventListener('DOMContentLoaded', () => {
     createTodoApp(document.getElementById('todo-app'), 'Мои дела', 'my-todo-list');
 });
