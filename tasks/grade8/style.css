@@ -93,3 +93,8 @@ html {
     pointer-events: none;
     color: rgb(255, 255, 255);
 }
+
+.error-text {
+    color: red;
+    display: none;
+}

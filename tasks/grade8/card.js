@@ -1,8 +1,15 @@
 const TIME_LIMIT = 60;
 const DEFAULT_SIZE = 4;
 
+// Глобальные переменные
 let gameTimer, remainingTime, timeoutId;
 let boardSize, cards, firstCard, secondCard, matchedPairs;
+
+// Кэшируем часто используемые DOM-элементы
+const gameBoard = document.getElementById("game-board");
+const timerElement = document.getElementById("timer");
+const gridSizeInput = document.getElementById("grid-size");
+const errorMessageElement = document.getElementById("error-message");
 
 const generateCardNumbers = (size) => {
     const pairs = (size * size) / 2;
@@ -28,13 +35,21 @@ const createCard = (number) => {
 
 const initializeBoard = (size) => {
     boardSize = size;
+
+    // Генерация номеров карточек и их перемешивание
     const numbers = shuffleArray(generateCardNumbers(size));
-    const gameBoard = document.getElementById("game-board");
+
+    // Установка CSS-сетки
     gameBoard.style.gridTemplateColumns = `repeat(${size}, 80px)`;
+
+    // Очистка содержимого игрового поля
     gameBoard.innerHTML = "";
+
+    // Создание и добавление карточек
     cards = numbers.map((num) => createCard(num));
     cards.forEach((card) => gameBoard.appendChild(card));
-    matchedPairs = 0;
+
+    matchedPairs = 0; // Сброс счётчика совпавших пар
 };
 
 const onCardClick = (event) => {
@@ -84,33 +99,42 @@ const endGame = (win) => {
 
 const startTimer = () => {
     remainingTime = TIME_LIMIT;
-    document.getElementById("timer").textContent = `Осталось времени: ${remainingTime} сек`;
+    timerElement.textContent = `Осталось времени: ${remainingTime} сек`;
     gameTimer = setInterval(() => {
         remainingTime--;
-        document.getElementById("timer").textContent = `Осталось времени: ${remainingTime} сек`;
+        timerElement.textContent = `Осталось времени: ${remainingTime} сек`;
         if (remainingTime <= 0) endGame(false);
     }, 1000);
 };
 
 const restartGame = () => {
-  clearInterval(gameTimer);
-  startTimer();
-  initializeBoard(boardSize); 
+    clearInterval(gameTimer);
+    startTimer();
+    initializeBoard(boardSize); 
 };
 
 const startGameWithInput = () => {
-    const inputSize = parseInt(document.getElementById("grid-size").value, 10);
+    const inputSize = parseInt(gridSizeInput.value, 10);
+
+    // Очистка предыдущего сообщения об ошибке
+    errorMessageElement.style.display = "none";
+    errorMessageElement.textContent = "";
+
+    // Проверка ввода
     if (isNaN(inputSize) || inputSize % 2 !== 0 || inputSize < 2 || inputSize > 10) {
-        alert("Введите четное число от 2 до 10. Установлен размер 4x4.");
-        boardSize = DEFAULT_SIZE;
+        errorMessageElement.textContent = "Введите четное число от 2 до 10.";
+        errorMessageElement.style.display = "inline";
+        boardSize = DEFAULT_SIZE; // Используем значение по умолчанию
     } else {
         boardSize = inputSize;
+        restartGame();
     }
-    restartGame();
 };
 
+// Добавляем обработчики событий
 document.getElementById("start-btn").addEventListener("click", startGameWithInput);
 document.getElementById("restart-btn").addEventListener("click", restartGame);
 
+// Установка значения по умолчанию и старт игры
 boardSize = DEFAULT_SIZE;
 restartGame();
