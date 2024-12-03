@@ -1,0 +1,100 @@
+body {
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+}
+
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before
+*::after {
+    box-sizing: inherit;
+}
+
+.container {
+    padding: 40px 15px;
+    margin: 0 auto;
+}
+
+.title {
+    text-align: center;
+    padding: 40px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 45px;
+    color: bisque;
+    user-select: none;
+}
+
+.game-board{
+    display: grid;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(4, 80px);
+    grid-gap: 10px;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+.card{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    margin-bottom: 10px;    
+    color: transparent;
+    font-size: 42px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.size-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.timer { 
+    color: bisque;
+    margin-left: 15px;
+    user-select: none;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.text-size-input {
+    color: bisque;
+    margin-right: 15px;
+    font-size: 20px;
+    user-select: none;
+}
+
+.btn-primary {
+    margin-left: 10px;
+}
+
+
+.card.hidden {
+    background-color: #6C757D;
+    color: transparent;
+    transform: scale(0.95);
+}
+
+.card.matched {
+    background-color: rgb(60, 212, 60);
+    cursor: default;
+    pointer-events: none;
+    color: rgb(255, 255, 255);
+}
+
+.error-text {
+    color: red;
+    display: none;
+}
